@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import pizzas from './pizzas.js'; 
-import CardPizza from './CardPizza'
+import pizzas from '../components/pizzas.js'
+import CardPizza from '../components/CardPizza.jsx'
 const Home = () => {
   const [datos, setDatos] = useState([])
   useEffect(()=> {consultarApi()},[])

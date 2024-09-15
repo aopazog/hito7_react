@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import pizzas from './pizzas.js'; 
+import pizzas from '../components/pizzas.js'
 
 const Cart = () => {
   const [cart, setCart] = useState(pizzas.map(pizza => ({ ...pizza, quantity: 1 })));
