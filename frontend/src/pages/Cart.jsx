@@ -1,41 +1,15 @@
-import React, { useState } from 'react';
-import pizzas from '../components/pizzas.js'
+import React, { useContext } from 'react';
+import { CarritoContext } from '../contexts/CarritoContext';
 
 const Cart = () => {
-  const [cart, setCart] = useState(pizzas.map(pizza => ({ ...pizza, quantity: 1 })));
-
-  const increaseQuantity = (id) => {
-    setCart(
-      cart.map((pizza) =>
-        pizza.id === id
-          ? { ...pizza, quantity: pizza.quantity + 1 }
-          : pizza
-      )
-    );
-  };
-
-  const decreaseQuantity = (id) => {
-    setCart(
-      cart
-        .map((pizza) =>
-          pizza.id === id && pizza.quantity > 0
-            ? { ...pizza, quantity: pizza.quantity - 1 }
-            : pizza
-        )
-        .filter((pizza) => pizza.quantity > 0)
-    );
-  };
-
-  const calculateTotal = () => {
-    return cart.reduce((total, pizza) => total + pizza.price * pizza.quantity, 0);
-  };
+  const { cart, increaseQuantity, decreaseQuantity, calculateTotal } = useContext(CarritoContext);
 
   return (
     <div className="container">
       <h2>Carrito de Compras</h2>
       <div className="row">
         {cart.map((pizza) => (
-          <div key={pizza.id} className="col-md-4"> {/* Cada tarjeta ocupa 4 columnas en pantallas medianas y grandes */}
+          <div key={pizza.id} className="col-md-4">
             <div className="card mb-4">
               <img src={pizza.img} alt={pizza.name} className="card-img-top" />
               <div className="card-body">

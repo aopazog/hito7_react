@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { CarritoContext } from '../contexts/CarritoContext';
 
-const CardPizza = ({ name, ingredients, price, image }) => {
+const CardPizza = ({ pizza }) => {
+  const { addToCart } = useContext(CarritoContext);
+
   return (
     <div className="card">
-      <img src={image} alt={name} className="card-img-top" />
+      <img src={pizza.img} alt={pizza.name} className="card-img-top" />
       <div className="card-body">
-        <h5 className="card-title">{name}</h5>
+        <h5 className="card-title">{pizza.name}</h5>
         <ul>
-          {ingredients.map((ingredient, index) => (
+          {pizza.ingredients.map((ingredient, index) => (
             <li key={index}>{ingredient}</li>
           ))}
         </ul>
-        <p className="card-text">Precio: ${price}</p>
-        <button className="btn btn-primary">Agregar al carrito</button>
+        <p className="card-text">Precio: ${pizza.price}</p>
+        <button className="btn btn-primary" onClick={() => addToCart(pizza)}>
+          Agregar al carrito
+        </button>
       </div>
     </div>
   );
