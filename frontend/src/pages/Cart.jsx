@@ -7,7 +7,7 @@ const Cart = () => {
   return (
     <div className="container">
       <h2>Carrito de Compras</h2>
-      <div className="row">
+      <div className="container">
         {cart.map((pizza) => (
           <div key={pizza.id} className="col-md-4">
             <div className="card mb-4">

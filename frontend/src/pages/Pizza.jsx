@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-
+import { useParams } from 'react-router-dom';
+import CardPizza from '../components/CardPizza';
 const Pizza = () => {
   const [datos, setDatos] = useState(null); // Inicializar como null o un objeto vacío
-  
+  const { id } = useParams();  // Obtener el id de la URL
   useEffect(() => {
     const consultarApi = async () => {
       try {
-        const url = 'http://localhost:5000/api/pizzas/p001';
+        const url = `http://localhost:5000/api/pizzas/${id}`;
         const response = await fetch(url);
         const data = await response.json();
         setDatos(data);
@@ -17,7 +18,7 @@ const Pizza = () => {
     };
 
     consultarApi();
-  }, []);
+  }, [id]);
 
   // Verificar que los datos estén cargados antes de renderizar
   if (!datos) {
@@ -26,19 +27,9 @@ const Pizza = () => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center ">
-    <div className="card w-75  h-50">
-      <img src={datos.img} alt={datos.name} className="card-img-top" />
-      <div className="card-body">
-        <h5 className="card-title">{datos.name}</h5>
-        <ul>
-          {datos.ingredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul>
-        <p className="card-text">Precio: ${datos.price}</p>
-        <p className="card-text">Descripción: ${datos.desc}</p>
-        <button className="btn btn-primary">Agregar al carrito</button>
-      </div>
+    <div>
+      {/* Reutilizamos el componente CardPizza con showDetails en true */}
+      <CardPizza pizza={datos}  />
     </div>
     </div>
   );
