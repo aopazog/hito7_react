@@ -9,10 +9,11 @@
   import Pizza from './pages/Pizza';
   import NotFound from './components/NotFound';
   import Profile from './components/Profile';
-  import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Agrega BrowserRouter
+  import { BrowserRouter as Router, Route, Routes, Navigate  } from 'react-router-dom'; // Agrega BrowserRouter
   import { CarritoProvider } from './contexts/CarritoContext'; // Asegúrate de que la ruta sea correcta
-
+  import { useUser } from './contexts/UserContext';
   const App = () => {
+    const { token } = useUser()
     return (
       <CarritoProvider> {/* Envuelve toda la aplicación con el proveedor del carrito */}
 
@@ -20,11 +21,20 @@
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/login" element={<LoginPage />} />
+              <Route 
+          path="/register" 
+          element={!token ? <RegisterPage /> : <Navigate to="/" />}  // Redirigir si ya está autenticado
+        />
+              <Route 
+          path="/login" 
+          element={!token ? <LoginPage /> : <Navigate to="/" />}  // Redirigir si ya está autenticado
+        />
               <Route path="/cart" element={<Cart />} />
               <Route path="/pizza/:id" element={<Pizza />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route 
+          path="/profile" 
+          element={token ? <Profile /> : <Navigate to="/login" />}  // Ruta protegida
+        />
               <Route path="/404" element={<NotFound />} />
             </Routes>
             <Footer />
